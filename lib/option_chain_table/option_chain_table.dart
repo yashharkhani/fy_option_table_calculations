@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:option_chain_renderer/option_chain_table/option_chain_pre_render_calculator.dart';
+import 'package:option_chain_renderer/option_chain_table/option_chain_dimension_analyzer.dart';
 import 'package:option_chain_renderer/option_chain_table/two_dimensional_scroller.dart';
 
 class OptionChainTable extends StatefulWidget {

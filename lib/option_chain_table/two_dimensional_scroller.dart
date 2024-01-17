@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 
-import 'package:option_chain_renderer/option_chain_table/option_chain_pre_render_calculator.dart';
+import 'package:option_chain_renderer/option_chain_table/option_chain_dimension_analyzer.dart';
 
 class OptionChainTwoDimensionalDivisionScroller
     extends TwoDimensionalScrollView {
