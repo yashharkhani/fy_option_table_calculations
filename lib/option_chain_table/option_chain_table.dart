@@ -25,9 +25,9 @@ class _OptionChainTableState extends State<OptionChainTable> {
       tableWidth: widget.tableWidth,
       tableHeight: widget.tableHeight,
       cellHeight: 50,
-      leftColumns: _generateRandomNColumns(10, 20),
-      middleColumn: _generateRandomNColumns(1, 20).first,
-      rightColumns: _generateRandomNColumns(10, 20),
+      leftColumns: _generateRandomNColumns(100, 100),
+      middleColumn: _generateRandomNColumns(1, 100).first,
+      rightColumns: _generateRandomNColumns(100, 100),
     );
   }
 
