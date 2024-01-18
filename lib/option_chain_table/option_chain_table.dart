@@ -99,7 +99,13 @@ class _OptionChainTableState extends State<OptionChainTable> {
           width: optionChainDimensionAnalyzer.leftDivisonAvailableSpace,
           height: optionChainDimensionAnalyzer.tableHeight,
           color: Colors.white,
-          child: _divisionScroller(optionChainDimensionAnalyzer.leftColumns),
+          child: _divisionScroller(
+            OptionChain2DLayoutingConfigurations(
+              columns: optionChainDimensionAnalyzer.leftColumns,
+              cellHeight: optionChainDimensionAnalyzer.cellHeight,
+              indexRangeMapper: optionChainDimensionAnalyzer.lcIdxRangeMapper,
+            ),
+          ),
         ),
         SizedBox(
           width: optionChainDimensionAnalyzer.middleDivisionAvailableSpace,
@@ -109,18 +115,25 @@ class _OptionChainTableState extends State<OptionChainTable> {
           width: optionChainDimensionAnalyzer.leftDivisonAvailableSpace,
           height: optionChainDimensionAnalyzer.tableHeight,
           color: Colors.white,
-          child: _divisionScroller(optionChainDimensionAnalyzer.rightColumns),
+          child: _divisionScroller(
+            OptionChain2DLayoutingConfigurations(
+              columns: optionChainDimensionAnalyzer.rightColumns,
+              cellHeight: optionChainDimensionAnalyzer.cellHeight,
+              indexRangeMapper: optionChainDimensionAnalyzer.rcIdxRangeMapper,
+            ),
+          ),
         ),
       ],
     );
   }
 
-  Widget _divisionScroller(List<OptionChainColumm> columns) {
+  Widget _divisionScroller(
+      OptionChain2DLayoutingConfigurations configurations) {
     return OptionChainTwoDimensionalDivisionScroller(
-      columns: columns,
+      configurations: configurations,
       delegate: TwoDimensionalChildBuilderDelegate(
-        maxXIndex: columns.length - 1,
-        maxYIndex: columns.first.cells.length - 1,
+        maxXIndex: configurations.columns.length - 1,
+        maxYIndex: configurations.columns.first.cells.length - 1,
         builder: (context, vicinity) => Container(
           height: 200,
           width: 200,

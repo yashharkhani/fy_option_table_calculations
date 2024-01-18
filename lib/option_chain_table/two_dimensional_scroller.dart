@@ -1,15 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:math' as math;
 
 import 'package:option_chain_renderer/option_chain_table/option_chain_dimension_analyzer.dart';
 
 class OptionChainTwoDimensionalDivisionScroller
     extends TwoDimensionalScrollView {
-  final List<OptionChainColumm> columns;
+  final OptionChain2DLayoutingConfigurations configurations;
   const OptionChainTwoDimensionalDivisionScroller({
     super.key,
     super.primary,
@@ -22,7 +23,7 @@ class OptionChainTwoDimensionalDivisionScroller
     super.dragStartBehavior = DragStartBehavior.start,
     super.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     super.clipBehavior = Clip.hardEdge,
-    required this.columns,
+    required this.configurations,
   }) : super(delegate: delegate);
 
   @override
@@ -40,13 +41,14 @@ class OptionChainTwoDimensionalDivisionScroller
       delegate: delegate as TwoDimensionalChildBuilderDelegate,
       cacheExtent: cacheExtent,
       clipBehavior: clipBehavior,
-      columns: columns,
+      configurations: configurations,
     );
   }
 }
 
 class TwoDimensionalScrollerViewport extends TwoDimensionalViewport {
-  final List<OptionChainColumm> columns;
+  final OptionChain2DLayoutingConfigurations configurations;
+
   const TwoDimensionalScrollerViewport({
     super.key,
     required super.verticalOffset,
@@ -57,7 +59,7 @@ class TwoDimensionalScrollerViewport extends TwoDimensionalViewport {
     required super.mainAxis,
     super.cacheExtent,
     super.clipBehavior = Clip.hardEdge,
-    required this.columns,
+    required this.configurations,
   });
 
   @override
@@ -72,7 +74,7 @@ class TwoDimensionalScrollerViewport extends TwoDimensionalViewport {
       childManager: context as TwoDimensionalChildManager,
       cacheExtent: cacheExtent,
       clipBehavior: clipBehavior,
-      columns: columns,
+      configurations: configurations,
     );
   }
 
@@ -94,7 +96,8 @@ class TwoDimensionalScrollerViewport extends TwoDimensionalViewport {
 }
 
 class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
-  final List<OptionChainColumm> columns;
+  final OptionChain2DLayoutingConfigurations configurations;
+
   RenderTwoDimensionalGridViewport({
     required super.horizontalOffset,
     required super.horizontalAxisDirection,
@@ -105,7 +108,7 @@ class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
     required super.childManager,
     super.cacheExtent,
     super.clipBehavior = Clip.hardEdge,
-    required this.columns,
+    required this.configurations,
   }) : super(delegate: delegate);
 
   @override
