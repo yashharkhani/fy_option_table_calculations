@@ -27,7 +27,11 @@ class OptionChainDimensionAnalyzer {
 
   double get leftDivisonAvailableSpace => _lcAvailableSpace;
   double get rightDivisionAvailableSpace => _rcAvailableSpace;
+
   double get middleDivisionAvailableSpace => _middleColumnWidth;
+
+  double get leftDivisionRequiredSpace => _lcRequiredSpace;
+  double get rightDivisionRequiredSpace => _rcRequiredSpace;
 
   late IndexRangeMapper lcIdxRangeMapper;
   late IndexRangeMapper rcIdxRangeMapper;
@@ -148,9 +152,11 @@ class OptionChain2DLayoutingConfigurations {
   final List<OptionChainColumm> columns;
   final double cellHeight;
   final IndexRangeMapper indexRangeMapper;
+  final double maxYExtent;
   OptionChain2DLayoutingConfigurations({
     required this.columns,
     required this.cellHeight,
     required this.indexRangeMapper,
+    required this.maxYExtent,
   });
 }

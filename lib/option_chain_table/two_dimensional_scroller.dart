@@ -123,22 +123,41 @@ class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
     final int maxRowIndex = builderDelegate.maxYIndex!;
     final int maxColumnIndex = builderDelegate.maxXIndex!;
 
-    final int leadingColumn = math.max((horizontalPixels / 200).floor(), 0);
+    // final int leadingColumn = math.max((horizontalPixels / 200).floor(), 0);
 
-    final int leadingRow = math.max((verticalPixels / 200).floor(), 0);
-    final int trailingColumn = math.min(
-      ((horizontalPixels + viewportWidth) / 200).ceil(),
-      maxColumnIndex,
+    // final int leadIdx =
+    //     configurations.indexRangeMapper.findRangeIndex(horizontalPixels);
+
+    final int leadingColumn = configurations.indexRangeMapper.findRangeIndex(
+      horizontalPixels,
+      defaultVal: 0,
     );
+
+    final int leadingRow =
+        math.max((verticalPixels / configurations.cellHeight).floor(), 0);
+
+    final int trailingColumn = configurations.indexRangeMapper.findRangeIndex(
+      horizontalPixels + viewportWidth,
+      defaultVal: maxColumnIndex,
+    );
+    //  math.min(
+    //   ((horizontalPixels + viewportWidth) / 200).ceil(),
+    //   maxColumnIndex,
+    // );
     final int trailingRow = math.min(
-      ((verticalPixels + viewportHeight) / 200).ceil(),
+      ((verticalPixels + viewportHeight) / configurations.cellHeight).ceil(),
       maxRowIndex,
     );
 
-    double xLayoutOffset = (leadingColumn * 200) - horizontalOffset.pixels;
+    double xLayoutOffset = configurations.indexRangeMapper
+            .getRangeAtIndex(leadingColumn)
+            .startRange -
+        horizontalOffset.pixels;
 
     for (int column = leadingColumn; column <= trailingColumn; column++) {
-      double yLayoutOffset = (leadingRow * 200) - verticalOffset.pixels;
+      double yLayoutOffset =
+          (leadingRow * configurations.cellHeight) - verticalOffset.pixels;
+
       for (int row = leadingRow; row <= trailingRow; row++) {
         final ChildVicinity vicinity =
             ChildVicinity(xIndex: column, yIndex: row);
@@ -148,19 +167,22 @@ class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
         // Subclasses only need to set the normalized layout offset. The super
         // class adjusts for reversed axes.
         parentDataOf(child).layoutOffset = Offset(xLayoutOffset, yLayoutOffset);
-        yLayoutOffset += 200;
+        yLayoutOffset += configurations.cellHeight;
       }
-      xLayoutOffset += 200;
+      xLayoutOffset += configurations.columns[column].maxCellRenderWidth!;
     }
 
     // Set the min and max scroll extents for each axis.
-    final double verticalExtent = 200 * (maxRowIndex + 1);
+    final double verticalExtent = configurations.cellHeight * (maxRowIndex + 1);
+
     verticalOffset.applyContentDimensions(
       0.0,
       clampDouble(
           verticalExtent - viewportDimension.height, 0.0, double.infinity),
     );
-    final double horizontalExtent = 200 * (maxColumnIndex + 1);
+
+    final double horizontalExtent = configurations.maxYExtent;
+
     horizontalOffset.applyContentDimensions(
       0.0,
       clampDouble(

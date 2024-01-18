@@ -3,7 +3,15 @@ class IndexRangeMapper {
 
   IndexRangeMapper({required this.ranges});
 
-  int findRangeIndex(num value) {
+  Range getRangeAtIndex(int idx) {
+    if (idx < 0 || idx >= ranges.length) {
+      throw "out of bounds";
+    }
+
+    return ranges[idx];
+  }
+
+  int findRangeIndex(num value, {int? defaultVal}) {
     int low = 0;
     int high = ranges.length - 1;
 
@@ -19,7 +27,7 @@ class IndexRangeMapper {
       }
     }
 
-    return -1; // Value not found in any range
+    return defaultVal ?? -1; // Value not found in any range
   }
 }
 

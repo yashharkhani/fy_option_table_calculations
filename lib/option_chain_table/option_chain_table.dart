@@ -101,10 +101,11 @@ class _OptionChainTableState extends State<OptionChainTable> {
           color: Colors.white,
           child: _divisionScroller(
             OptionChain2DLayoutingConfigurations(
-              columns: optionChainDimensionAnalyzer.leftColumns,
-              cellHeight: optionChainDimensionAnalyzer.cellHeight,
-              indexRangeMapper: optionChainDimensionAnalyzer.lcIdxRangeMapper,
-            ),
+                columns: optionChainDimensionAnalyzer.leftColumns,
+                cellHeight: optionChainDimensionAnalyzer.cellHeight,
+                indexRangeMapper: optionChainDimensionAnalyzer.lcIdxRangeMapper,
+                maxYExtent:
+                    optionChainDimensionAnalyzer.leftDivisionRequiredSpace),
           ),
         ),
         SizedBox(
@@ -117,10 +118,11 @@ class _OptionChainTableState extends State<OptionChainTable> {
           color: Colors.white,
           child: _divisionScroller(
             OptionChain2DLayoutingConfigurations(
-              columns: optionChainDimensionAnalyzer.rightColumns,
-              cellHeight: optionChainDimensionAnalyzer.cellHeight,
-              indexRangeMapper: optionChainDimensionAnalyzer.rcIdxRangeMapper,
-            ),
+                columns: optionChainDimensionAnalyzer.rightColumns,
+                cellHeight: optionChainDimensionAnalyzer.cellHeight,
+                indexRangeMapper: optionChainDimensionAnalyzer.rcIdxRangeMapper,
+                maxYExtent:
+                    optionChainDimensionAnalyzer.rightDivisionRequiredSpace),
           ),
         ),
       ],
@@ -135,8 +137,8 @@ class _OptionChainTableState extends State<OptionChainTable> {
         maxXIndex: configurations.columns.length - 1,
         maxYIndex: configurations.columns.first.cells.length - 1,
         builder: (context, vicinity) => Container(
-          height: 200,
-          width: 200,
+          height: configurations.cellHeight,
+          width: configurations.columns[vicinity.xIndex].maxCellRenderWidth,
           color: vicinity.xIndex.isEven && vicinity.yIndex.isEven
               ? Colors.amber[50]
               : (vicinity.xIndex.isOdd && vicinity.yIndex.isOdd
@@ -144,7 +146,7 @@ class _OptionChainTableState extends State<OptionChainTable> {
                   : null),
           child: Center(
             child: Text(
-              'Row ${vicinity.yIndex}: Column ${vicinity.xIndex}',
+              '${configurations.columns[vicinity.xIndex].cells[vicinity.yIndex].rawData}\nR${vicinity.yIndex}:C${vicinity.xIndex}',
             ),
           ),
         ),
