@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:option_chain_renderer/option_chain_table/index_range_mapper.dart';
 
 class OptionChainDimensionAnalyzer {
   double tableWidth;
@@ -28,6 +29,9 @@ class OptionChainDimensionAnalyzer {
   double get rightDivisionAvailableSpace => _rcAvailableSpace;
   double get middleDivisionAvailableSpace => _middleColumnWidth;
 
+  late IndexRangeMapper lcIdxRangeMapper;
+  late IndexRangeMapper rcIdxRangeMapper;
+
   void compute() {
     // dividing the available space into three different parts
     _divideSpaces();
@@ -46,17 +50,30 @@ class OptionChainDimensionAnalyzer {
 
   void _computeIndividualColumnRequiredSpaces() {
     _lcRequiredSpace = 0;
+    List<Range> lcRanges = [];
     for (int idx = 0; idx < leftColumns.length; idx++) {
-      print("start ($idx) : $_lcRequiredSpace");
+      num start = _lcRequiredSpace;
       _lcRequiredSpace += leftColumns[idx].getMaxRenderWidth();
-      print("end ($idx) : $_lcRequiredSpace");
-      print("------------------------------");
+      // storing the ranges
+      lcRanges.add(Range(
+        startRange: start,
+        endRange: _lcRequiredSpace,
+      ));
     }
-    print(_lcAvailableSpace);
     _rcRequiredSpace = 0;
+    List<Range> rcRanges = [];
     for (int idx = 0; idx < rightColumns.length; idx++) {
+      num start = _rcRequiredSpace;
       _rcRequiredSpace += rightColumns[idx].getMaxRenderWidth();
+      // storing the ranges
+      rcRanges.add(Range(
+        startRange: start,
+        endRange: _rcRequiredSpace,
+      ));
     }
+
+    lcIdxRangeMapper = IndexRangeMapper(ranges: lcRanges);
+    rcIdxRangeMapper = IndexRangeMapper(ranges: rcRanges);
   }
 
   // recompute on window resize
@@ -125,4 +142,15 @@ Size _textSize(String text, TextStyle style) {
       textDirection: TextDirection.ltr)
     ..layout(minWidth: 0, maxWidth: double.infinity);
   return textPainter.size;
+}
+
+class OptionChain2DLayoutingConfigurations {
+  final List<OptionChainColumm> columns;
+  final double cellHeight;
+  final IndexRangeMapper indexRangeMapper;
+  OptionChain2DLayoutingConfigurations({
+    required this.columns,
+    required this.cellHeight,
+    required this.indexRangeMapper,
+  });
 }
