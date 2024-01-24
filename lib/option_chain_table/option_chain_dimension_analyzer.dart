@@ -153,10 +153,16 @@ class OptionChain2DLayoutingConfigurations {
   final double cellHeight;
   final IndexRangeMapper indexRangeMapper;
   final double maxYExtent;
+  final bool reverse;
+  final ScrollController horizontalScroller;
+  final ScrollController verticalScroller;
   OptionChain2DLayoutingConfigurations({
     required this.columns,
     required this.cellHeight,
     required this.indexRangeMapper,
     required this.maxYExtent,
+    required this.horizontalScroller,
+    required this.verticalScroller,
+    this.reverse = false,
   });
 }

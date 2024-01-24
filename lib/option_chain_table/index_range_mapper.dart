@@ -11,7 +11,11 @@ class IndexRangeMapper {
     return ranges[idx];
   }
 
-  int findRangeIndex(num value, {int? defaultVal}) {
+  int findRangeIndex(num value, {int? defaultVal, bool mod = false}) {
+    if (mod && value < 0) {
+      value *= -1;
+    }
+
     int low = 0;
     int high = ranges.length - 1;
 
