@@ -1,17 +1,11 @@
 library option_chain_table;
 
-// import 'dart:math';
 import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
-// import 'package:option_chain_renderer/option_chain_table/linked_scroll_controllers.dart';
-// import 'package:option_chain_renderer/option_chain_table/option_chain_controller.dart';
-// import 'package:option_chain_renderer/option_chain_table/option_chain_dimension_analyzer.dart';
-// import 'package:option_chain_renderer/option_chain_table/two_dimensional_scroller.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 part 'index_range_mapper.dart';
@@ -90,6 +84,11 @@ class _OptionChainTableState extends State<OptionChainTable> {
       _computeStrikeRenderPosition();
     });
 
+    widget.optionChainController.init(
+      optionChainDimensionAnalyzer: optionChainDimensionAnalyzer,
+      stateUpdator: setState,
+    );
+
     super.initState();
   }
 
@@ -146,6 +145,11 @@ class _OptionChainTableState extends State<OptionChainTable> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    widget.optionChainController.recomputeAndRerender(
+      height: widget.tableHeight,
+      width: widget.tableWidth,
+    );
+
     return Container(
       width: size.width,
       height: size.height,
@@ -169,24 +173,33 @@ class _OptionChainTableState extends State<OptionChainTable> {
 
   final ValueNotifier<double> sliderValue = ValueNotifier<double>(50);
   late ValueNotifier<double> strikeRenderPosition;
+  final double sliderWidth = 200;
 
   List<Widget> _optionChainLayer3() {
+    double sliderLeftOffset =
+        optionChainDimensionAnalyzer.leftDivisonAvailableSpace +
+            (optionChainDimensionAnalyzer.middleDivisionAvailableSpace / 2) -
+            (sliderWidth / 2);
+
     return [
       Positioned(
         bottom: 0,
-        left: optionChainDimensionAnalyzer.leftDivisonAvailableSpace,
+        left: sliderLeftOffset,
         child: ValueListenableBuilder<double>(
             valueListenable: sliderValue,
             builder: (context, val, _) {
-              return SfSlider(
-                value: val,
-                min: 0,
-                max: 100,
-                // divisions: 1,
-                onChanged: (value) {
-                  sliderValue.value = value;
-                  _computeXScroll(value);
-                },
+              return SizedBox(
+                width: sliderWidth,
+                child: SfSlider(
+                  value: val,
+                  min: 0,
+                  max: 100,
+                  // divisions: 1,
+                  onChanged: (value) {
+                    sliderValue.value = value;
+                    _computeXScroll(value);
+                  },
+                ),
               );
             }),
       ),
@@ -340,26 +353,31 @@ class _OptionChainTableState extends State<OptionChainTable> {
       delegate: TwoDimensionalChildBuilderDelegate(
         maxXIndex: configurations.columns.length - 1,
         maxYIndex: configurations.columns.first.cells.length - 1,
-        builder: (context, vicinity) => Container(
-          height: configurations.cellHeight,
-          width: configurations.columns[vicinity.xIndex].maxCellRenderWidth,
-          decoration: BoxDecoration(
-              color: vicinity.xIndex.isEven && vicinity.yIndex.isEven
-                  ? Colors.amber[50]
-                  : (vicinity.xIndex.isOdd && vicinity.yIndex.isOdd
-                      ? Colors.purple[50]
-                      : null),
-              border: const Border(
-                bottom: BorderSide(
-                  color: Colors.grey,
-                ),
-              )),
-          child: Center(
-            child: Text(
-              '${configurations.columns[vicinity.xIndex].cells[vicinity.yIndex].rawData}\nR${vicinity.yIndex}:C${vicinity.xIndex}',
+        builder: (context, vicinity) {
+          // double? w =
+          //     configurations.columns[vicinity.xIndex].maxCellRenderWidth;
+          // print(w);
+          return Container(
+            height: configurations.cellHeight,
+            width: configurations.columns[vicinity.xIndex].maxCellRenderWidth,
+            decoration: BoxDecoration(
+                color: vicinity.xIndex.isEven && vicinity.yIndex.isEven
+                    ? Colors.amber[50]
+                    : (vicinity.xIndex.isOdd && vicinity.yIndex.isOdd
+                        ? Colors.purple[50]
+                        : null),
+                border: const Border(
+                  bottom: BorderSide(
+                    color: Colors.grey,
+                  ),
+                )),
+            child: Center(
+              child: Text(
+                '${configurations.columns[vicinity.xIndex].cells[vicinity.yIndex].rawData}\nR${vicinity.yIndex}:C${vicinity.xIndex}',
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

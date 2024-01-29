@@ -9,6 +9,7 @@ class OptionChain extends StatefulWidget {
 }
 
 class _OptionChainState extends State<OptionChain> {
+  final OptionChainController optionChainController = OptionChainController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -31,7 +32,7 @@ class _OptionChainState extends State<OptionChain> {
           child: OptionChainTable(
             tableWidth: size.width * 0.8,
             tableHeight: size.height * 0.7,
-            optionChainController: OptionChainController(),
+            optionChainController: optionChainController,
           ),
         ),
       ),

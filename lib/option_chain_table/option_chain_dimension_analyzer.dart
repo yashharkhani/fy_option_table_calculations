@@ -80,11 +80,12 @@ class OptionChainDimensionAnalyzer {
   }
 
   // recompute on window resize
-  void recomputeResize({required double height, required double width}) {
-    if (height == tableHeight && width == tableWidth) return;
+  bool? recomputeResize({required double height, required double width}) {
+    if (height == tableHeight && width == tableWidth) return false;
     tableHeight = height;
     tableWidth = width;
     compute();
+    return true;
   }
 }
 

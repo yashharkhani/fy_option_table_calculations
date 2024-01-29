@@ -186,7 +186,7 @@ class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
     );
 
     double xLayoutOffset = (leadingColumn * 200) - horizontalOffset.pixels;
-    print(xLayoutOffset);
+
     for (int column = leadingColumn; column <= trailingColumn; column++) {
       double yLayoutOffset = (leadingRow * 200) - verticalOffset.pixels;
       for (int row = leadingRow; row <= trailingRow; row++) {

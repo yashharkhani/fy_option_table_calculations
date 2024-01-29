@@ -208,8 +208,6 @@ class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
       mod: configurations.reverse,
     );
 
-    print(leadingColumn);
-
     final int leadingRow =
         math.max((verticalPixels / configurations.cellHeight).floor(), 0);
 
@@ -218,8 +216,6 @@ class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
       defaultVal: 0,
       mod: configurations.reverse,
     );
-
-    print(trailingColumn);
 
     final int trailingRow = math.min(
       ((verticalPixels + viewportHeight) / configurations.cellHeight).ceil(),
@@ -231,9 +227,6 @@ class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
                 .endRange -
             viewportDimension.width) -
         horizontalPixels;
-    //     100;
-    print(horizontalPixels);
-    print(xLayoutOffset);
 
     for (int column = leadingColumn; column >= trailingColumn; column--) {
       double yLayoutOffset =
