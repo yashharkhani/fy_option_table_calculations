@@ -30,7 +30,8 @@ class _OptionChainState extends State<OptionChain> {
         child: Center(
           child: OptionChainTable(
             tableWidth: size.width * 0.8,
-            tableHeight: size.height * 0.6,
+            tableHeight: size.height * 0.7,
+            optionChainController: OptionChainController(),
           ),
         ),
       ),

@@ -1,18 +1,35 @@
-import 'dart:math';
+library option_chain_table;
 
+// import 'dart:math';
+import 'dart:math' as math;
+import 'dart:ui';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:option_chain_renderer/option_chain_table/linked_scroll_controllers.dart';
-import 'package:option_chain_renderer/option_chain_table/option_chain_dimension_analyzer.dart';
-import 'package:option_chain_renderer/option_chain_table/two_dimensional_scroller.dart';
+import 'package:flutter/rendering.dart';
+
+// import 'package:option_chain_renderer/option_chain_table/linked_scroll_controllers.dart';
+// import 'package:option_chain_renderer/option_chain_table/option_chain_controller.dart';
+// import 'package:option_chain_renderer/option_chain_table/option_chain_dimension_analyzer.dart';
+// import 'package:option_chain_renderer/option_chain_table/two_dimensional_scroller.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+
+part 'index_range_mapper.dart';
+part 'linked_scroll_controllers.dart';
+part 'option_chain_controller.dart';
+part 'option_chain_dimension_analyzer.dart';
+part 'two_dimensional_scroller.dart';
 
 class OptionChainTable extends StatefulWidget {
   final double tableWidth;
   final double tableHeight;
+  final OptionChainController optionChainController;
+
   const OptionChainTable({
     super.key,
     required this.tableWidth,
     required this.tableHeight,
+    required this.optionChainController,
   });
 
   @override
@@ -361,7 +378,7 @@ class _OptionChainTableState extends State<OptionChainTable> {
       columnSize,
       (index) {
         return OptionChainCellData(
-          rawData: _generateRandomString(5, 30),
+          rawData: _generateRandomString(5, 40),
           textStyle: cellTextStyle,
         );
       },
@@ -369,7 +386,7 @@ class _OptionChainTableState extends State<OptionChainTable> {
   }
 
   String _generateRandomString(int minLength, int maxLength) {
-    final Random random = Random();
+    final math.Random random = math.Random();
     const String chars =
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 

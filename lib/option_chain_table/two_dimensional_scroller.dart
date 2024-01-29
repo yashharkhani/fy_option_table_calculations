@@ -1,12 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:math' as math;
-import 'dart:ui';
+part of option_chain_table;
 
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-
-import 'package:option_chain_renderer/option_chain_table/option_chain_dimension_analyzer.dart';
+// import 'package:option_chain_renderer/option_chain_table/option_chain_dimension_analyzer.dart';
 
 class OptionChainTwoDimensionalDivisionScroller
     extends TwoDimensionalScrollView {

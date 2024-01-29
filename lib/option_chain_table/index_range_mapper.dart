@@ -1,3 +1,5 @@
+part of option_chain_table;
+
 class IndexRangeMapper {
   List<Range> ranges;
 

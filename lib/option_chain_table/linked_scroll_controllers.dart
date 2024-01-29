@@ -1,24 +1,5 @@
-// Copyright 2018 the Dart project authors.
-//
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file or at
-// https://developers.google.com/open-source/licenses/bsd
+part of option_chain_table;
 
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-
-/// Sets up a collection of scroll controllers that mirror their movements to
-/// each other.
-///
-/// Controllers are added and returned via [addAndGet]. The initial offset
-/// of the newly created controller is synced to the current offset.
-/// Controllers must be `dispose`d when no longer in use to prevent memory
-/// leaks and performance degradation.
-///
-/// If controllers are disposed over the course of the lifetime of this
-/// object the corresponding scrollables should be given unique keys.
-/// Without the keys, Flutter may reuse a controller after it has been disposed,
-/// which can cause the controller offsets to fall out of sync.
 class LinkedScrollControllerGroup {
   LinkedScrollControllerGroup() {
     _offsetNotifier = _LinkedScrollControllerGroupOffsetNotifier(this);

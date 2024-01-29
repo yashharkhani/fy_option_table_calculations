@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:option_chain_renderer/option_chain_table/index_range_mapper.dart';
+part of option_chain_table;
 
 class OptionChainDimensionAnalyzer {
   double tableWidth;
