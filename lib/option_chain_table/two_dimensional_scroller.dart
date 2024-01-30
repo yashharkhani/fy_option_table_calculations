@@ -107,10 +107,10 @@ class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
 
   @override
   void layoutChildSequence() {
-    if (configurations.reverse) {
-      _layoutNegativeChildSequence();
-      return;
-    }
+    // if (configurations.reverse) {
+    //   _layoutNegativeChildSequence();
+    //   return;
+    // }
 
     _layoutPositiveChildSequence();
   }

@@ -101,16 +101,20 @@ class OptionChainColumm {
   }
 
   double _computeMaxWidth() {
-    int len = -1;
+    double len = -1;
     for (int idx = 0; idx < cells.length; idx++) {
-      int currLen = cells[idx].rawData.length;
+      /// use this for better accuracy but with a trade off with performance
+      // double currLen = cells[idx].computeCellRenderWidth();
+
+      double currLen = cells[idx].rawData.length.toDouble();
       if (currLen > len) {
         maxCellIdx = idx;
         len = currLen;
       }
     }
     maxCellRenderWidth = cells[maxCellIdx!].computeCellRenderWidth();
-
+    print(
+        "idx : $maxCellIdx | data : ${cells[maxCellIdx!].rawData} | len : $len");
     return maxCellRenderWidth!;
   }
 
@@ -120,12 +124,14 @@ class OptionChainColumm {
 class OptionChainCellData {
   final String rawData;
   final TextStyle textStyle;
+  final double cellClearance;
 
   double? _renderWidth;
 
   OptionChainCellData({
     required this.rawData,
     required this.textStyle,
+    this.cellClearance = 20,
   });
 
   // compute the widh
@@ -133,7 +139,8 @@ class OptionChainCellData {
     if (_renderWidth != null) return _renderWidth!;
 
     // computeing the width for the text rendering and rounding of the value for easier range detection during the grid layout
-    _renderWidth = _textSize(rawData, textStyle).width.floorToDouble();
+    _renderWidth =
+        _textSize(rawData, textStyle).width.ceilToDouble() + cellClearance;
 
     return _renderWidth!;
   }

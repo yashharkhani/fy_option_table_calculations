@@ -77,8 +77,8 @@ class _OptionChainTableState extends State<OptionChainTable> {
     _generateRandomData();
     optionChainDimensionAnalyzer.compute();
 
-    _jumpToCenter();
     _computeStrikePosition();
+    _jumpToCenter();
 
     middleYScroller.addListener(() {
       _computeStrikeRenderPosition();
@@ -135,7 +135,8 @@ class _OptionChainTableState extends State<OptionChainTable> {
   void _jumpToCenter() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       middleYScroller.animateTo(
-        middleYScroller.position.maxScrollExtent * 0.5,
+        middleYScroller.position.maxScrollExtent * 0.5 +
+            optionChainDimensionAnalyzer.cellHeight,
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeIn,
       );
@@ -396,7 +397,7 @@ class _OptionChainTableState extends State<OptionChainTable> {
       columnSize,
       (index) {
         return OptionChainCellData(
-          rawData: _generateRandomString(5, 40),
+          rawData: _generateRandomString(5, 10),
           textStyle: cellTextStyle,
         );
       },
