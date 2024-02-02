@@ -53,78 +53,80 @@ Creating a detailed mathematical documentation to accompany the `OptionChainTabl
 
 ---
 
+For GitHub READMEs, mathematical notations or LaTeX-style formulas aren't directly supported in Markdown files. To include mathematical formulas or complex notations in a GitHub README, you generally have two options:
+
+1. **Use Images for Formulas**: Create images of your formulas using a tool that can generate images from LaTeX or another mathematical notation system, then embed these images in your README.
+2. **Inline Code Blocks for Simplicity**: For simpler formulas, you might use inline code blocks to represent formulas in a plain text format that's still relatively understandable.
+
+Given the limitations, let's adapt the previous documentation to a format more suitable for GitHub, using inline code blocks for formulas.
+
+---
+
 # Mathematical Foundations of the OptionChainTable Library
 
-This section outlines the mathematical concepts and formulas underlying the `OptionChainTable` library's rendering and layout computation mechanisms. It aims to provide clarity on how dimensions are calculated, how data is mapped to screen space, and the optimizations that ensure efficient rendering.
+This document outlines the simplified mathematical concepts used in the `OptionChainTable` library's rendering and layout computation mechanisms.
 
 ## 1. Dimension Analysis
-
-The `OptionChainDimensionAnalyzer` class calculates the space each column in the table should occupy based on the content size and available viewport dimensions.
 
 ### Space Division Formula
 
 Given:
 
-- \(W\_{total}\) = Total width available for the table.
-- \(W\_{middle}\) = Width required by the middle column, calculated based on its content.
+- `W_total` = Total width available for the table.
+- `W_middle` = Width required by the middle column, calculated based on its content.
 
 The available space for left and right columns is calculated as:
 
-- \(W*{available} = \frac{W*{total} - W\_{middle}}{2}\)
+```
+W_available = (W_total - W_middle) / 2
+```
 
 ### Column Width Calculation
 
-For each column:
+For each column, the width is the maximum width of all cells in the column:
 
-- \(W\_{column} = \max(\text{width of all cells in the column})\)
+```
+W_column = max(width of all cells in the column)
+```
 
 ## 2. IndexRangeMapper Calculations
 
-The `IndexRangeMapper` class maps scroll positions to indices in the data set, using binary search for efficient lookup.
-
 ### Binary Search Algorithm
 
-Given a scroll position \(S\), the algorithm finds the corresponding range index \(i\) such that:
+To find the corresponding range index `i` for a scroll position `S`, ensuring:
 
-- \(R*{i}.start \leq S < R*{i}.end\)
+```
+R[i].start <= S < R[i].end
+```
 
-Where:
-
-- \(R\_{i}.start\) = Start of the range for index \(i\).
-- \(R\_{i}.end\) = End of the range for index \(i\).
-- \(R\) = List of all ranges sorted by their start.
+Where `R[i].start` and `R[i].end` represent the start and end of the range for index `i`, respectively.
 
 ### Range Mapping
 
-The mapping of a value \(V\) to a range index follows:
-
-- If \(V\) is within the bounds of \(R\_{i}\), then \(i\) is the index of the range that \(V\) maps to.
+The mapping of a value `V` to a range index is determined by locating which range `V` falls into.
 
 ## 3. Rendering Calculations
 
 ### Layout Computation
 
-For efficient rendering, the layout computation takes into account the viewport size and the scroll position to determine which cells are visible.
+Determining which cells are visible based on the viewport size and scroll position:
 
 Given:
 
-- \(H\_{viewport}\) = Height of the viewport.
-- \(W\_{viewport}\) = Width of the viewport.
-- \(S_x\) = Horizontal scroll position.
-- \(S_y\) = Vertical scroll position.
+- `H_viewport` = Height of the viewport.
+- `W_viewport` = Width of the viewport.
+- `S_x` = Horizontal scroll position.
+- `S_y` = Vertical scroll position.
 
-The visible range of rows (\(R*{visible}\)) and columns (\(C*{visible}\)) are calculated as:
+The visible range of rows `R_visible` and columns `C_visible` are calculated as follows:
 
-- \(R*{visible} = \left[\frac{S_y}{H*{cell}}, \frac{S*y + H*{viewport}}{H\_{cell}}\right]\)
-- \(C*{visible} = \text{Find using } IndexRangeMapper \text{ based on } S_x \text{ and } W*{viewport}\)
+```
+R_visible = [S_y / H_cell, (S_y + H_viewport) / H_cell]
+C_visible = Find using IndexRangeMapper based on S_x and W_viewport
+```
 
-Where:
-
-- \(H\_{cell}\) = Height of each cell in the table.
+Where `H_cell` is the height of each cell.
 
 ### Optimizations
 
-To minimize layout computations and redraws:
-
-- Only cells within \(R*{visible}\) and \(C*{visible}\) are laid out and rendered.
-- Cells outside the visible range are not rendered, conserving resources.
+To ensure efficiency, only cells within `R_visible` and `C_visible` are rendered, minimizing resource usage.
