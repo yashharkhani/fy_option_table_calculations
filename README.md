@@ -47,19 +47,6 @@ OptionChainTable optionChainTable = OptionChainTable(
 );
 ```
 
-Include `optionChainTable` in your widget tree to display the table.
-
-Creating a detailed mathematical documentation to accompany the `OptionChainTable` library involves elaborating on the formulas and calculations used within the rendering and dimension analysis components. This document will focus on the underlying math used in `OptionChainDimensionAnalyzer`, `IndexRangeMapper`, and the custom rendering logic, which are pivotal for the dynamic layout computation and efficient rendering of the option chain table.
-
----
-
-For GitHub READMEs, mathematical notations or LaTeX-style formulas aren't directly supported in Markdown files. To include mathematical formulas or complex notations in a GitHub README, you generally have two options:
-
-1. **Use Images for Formulas**: Create images of your formulas using a tool that can generate images from LaTeX or another mathematical notation system, then embed these images in your README.
-2. **Inline Code Blocks for Simplicity**: For simpler formulas, you might use inline code blocks to represent formulas in a plain text format that's still relatively understandable.
-
-Given the limitations, let's adapt the previous documentation to a format more suitable for GitHub, using inline code blocks for formulas.
-
 ---
 
 # Mathematical Foundations of the OptionChainTable Library
