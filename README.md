@@ -117,3 +117,41 @@ Where `H_cell` is the height of each cell.
 ### Optimizations
 
 To ensure efficiency, only cells within `R_visible` and `C_visible` are rendered, minimizing resource usage.
+
+### Linear Transformation for Strike Position Rendering
+
+The purpose of this transformation is to calculate the precise screen position (`strikeRenderPosition`) for the strike indicator, ensuring it accurately reflects the strike's position within the scrolled option chain table.
+
+Given:
+
+- `strikePosition` as the vertical position of the strike from the top of the table, calculated as `(strikeIndex + 1) * cellHeight`.
+- The viewport's vertical scroll offset (`S_y`), which indicates how far the table has been scrolled vertically.
+- The viewport's height (`H_viewport`), representing the visible portion of the table.
+
+The goal is to map `strikePosition` from the data space (the entire table height) to the screen space (the viewport).
+
+### Calculating the Strike Render Position
+
+1. **Determine if the Strike is Within the Viewport**: First, check if the strike position falls within the current vertical scroll range of the viewport:
+
+   - If `strikePosition < S_y`, the strike is above the viewport and not visible.
+   - If `strikePosition > S_y + H_viewport`, the strike is below the viewport and not visible.
+
+2. **Perform the Linear Transformation**: If the strike is within the viewport, we perform a linear transformation to find its position relative to the viewport top. This transformation takes the form of a mapping from the data coordinate system (the entire table) to the screen coordinate system (the viewport).
+
+   The formula for `strikeRenderPosition` within the viewport is:
+
+   ```
+   strikeRenderPosition = (strikePosition - S_y) / H_viewport * viewportHeight
+   ```
+
+   This formula effectively maps the strike position from the table's coordinate system to the viewport's coordinate system, scaling the position proportionally to the viewport's height.
+
+### Example
+
+Assuming a viewport height of 400 pixels, a cell height of 20 pixels, a strike index of 50, and the current vertical scroll position (`S_y`) of 400 pixels:
+
+- Calculate the `strikePosition` as `(50 + 1) * 20 = 1020` pixels from the top of the table.
+- If the user has scrolled down 400 pixels (`S_y = 400`), the `strikePosition` relative to the viewport's top would be `1020 - 400 = 620` pixels.
+
+If the viewport can only show 400 pixels of content at a time, and assuming the strike position (1020) is within the range of `S_y` and `S_y + H_viewport`, the strike indicator would be positioned at 620 pixels from the top of the viewport, assuming no scaling is needed. If scaling or additional adjustments are required based on the viewport height or other factors, the linear transformation would adjust `strikeRenderPosition` accordingly.
